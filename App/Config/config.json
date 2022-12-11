@@ -1,0 +1,21 @@
+{
+  "application": {
+    "baseUri": "/",
+    "appDir": "../App/",
+    "controllersDir": "Controllers/",
+    "modelsDir": "Models/",
+    "migrationsDir": "Migrations/",
+    "pluginsDir": "Plugins/",
+    "libraryDir": "Library/",
+    "cacheDir": ".phalcon/cache/",
+    "logInDb": false,
+    "migrationsTsBased": false,
+    "exportDataFromTables": []
+  },
+  "models": {
+    "metadata": {
+      "adapter": "Memory"
+    }
+  }
+}
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="Tests/bootstrap.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         verbose="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+
+    <testsuites>
+        <testsuite name="Suite Unit Tests">
+            <directory suffix=".php">Tests/Unit</directory>
+        </testsuite>
+
+        <testsuite name="Suite Integration">
+            <directory suffix=".php">Tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <env name="APP_DOMAIN" value="localhost"/>
+        <env name="APPLICATION_ENV" value="testing"/>
+        <env name="DB_ADAPTER" value="Mysql"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="3306"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="root"/>
+    </php>
+</phpunit>

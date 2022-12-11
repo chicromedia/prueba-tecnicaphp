@@ -1,0 +1,7 @@
+.idea
+.vendor
+*.iml
+etc/data/*
+vendor
+.env
+*.lock
