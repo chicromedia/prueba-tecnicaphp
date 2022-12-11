@@ -4,6 +4,7 @@ declare( strict_types=1 );
 namespace App\Providers;
 
 use PDO;
+use Phalcon\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
@@ -16,14 +17,17 @@ class DatabaseProvider implements ServiceProviderInterface
 
     public function register( DiInterface $di ): void
     {
-        $pdoAdapter = 'Phalcon\\Db\\Adapter\\Pdo\\' . getenv( 'DB_ADAPTER' );
+        /** @var Config $config */
+        $config = $di->getShared( ConfigProvider::NAME )->get( 'database' );
+
+        $pdoAdapter = 'Phalcon\\Db\\Adapter\\Pdo\\' . $config->path( 'adapter' );
 
         $di->setShared( self::NAME, fn() => new $pdoAdapter( [
-            'host' => getenv( 'DB_HOST' ),
-            'dbname' => getenv( 'DB_NAME' ),
-            'username' => getenv( 'DB_USERNAME' ),
-            'password' => getenv( 'DB_PASSWORD' ),
-            'port' => getenv( 'DB_PORT' ),
+            'host' => $config->path( 'host' ),
+            'dbname' => $config->path( 'dbname' ),
+            'username' => $config->path( 'username' ),
+            'password' => $config->path( 'password' ),
+            'port' => $config->path( 'port' ),
             'options' => [
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
                 PDO::ATTR_CASE => PDO::CASE_NATURAL,
