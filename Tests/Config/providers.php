@@ -5,6 +5,7 @@ use App\Providers\ConfigProvider;
 use App\Providers\DatabaseProvider;
 use App\Providers\RepositoryProvider;
 use App\Providers\RouterProvider;
+use Tests\Providers\RequestProvider;
 
 /**
  * Enabled providers. Order does matter
@@ -12,6 +13,7 @@ use App\Providers\RouterProvider;
 return [
     ConfigProvider::class,
     DatabaseProvider::class,
+    RequestProvider::class,
     RouterProvider::class,
     RepositoryProvider::class
 ];

@@ -51,7 +51,7 @@ class RouterProvider implements ServiceProviderInterface
         $collection = new MicroCollection();
         $collection->setHandler( UserController::class, true )
             ->setPrefix( '/users' )
-            ->get( "/create", "create" )
+            ->post( "/create", "create" )
             ->put( "/update", "update" )
             ->delete( "/delete/{id}", "delete" );
 

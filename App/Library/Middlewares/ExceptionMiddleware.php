@@ -3,7 +3,7 @@
 
 namespace App\Library\Middlewares;
 
-use App\Library\Http\HttpStatus;
+use App\Library\Http\HttpCode;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
@@ -20,7 +20,7 @@ class ExceptionMiddleware implements MiddlewareInterface
     {
         if ( $app->request->isOptions() )
         {
-            $app->response->setStatusCode( HttpStatus::NO_CONTENT );
+            $app->response->setStatusCode( HttpCode::NO_CONTENT );
             $app->response->sendHeaders();
             return false;
         }
@@ -36,16 +36,15 @@ class ExceptionMiddleware implements MiddlewareInterface
     {
         if ( $app->request->isOptions() )
         {
-            $app->response->setStatusCode( HttpStatus::NO_CONTENT );
+            $app->response->setStatusCode( HttpCode::NO_CONTENT );
             $app->response->sendHeaders();
             return false;
         }
 
-        $app->response->setStatusCode( HttpStatus::NOT_FOUND );
+        $app->response->setStatusCode( HttpCode::NOT_FOUND );
         $app->response->setJsonContent( [
-            "error" => HttpStatus::getDescription( HttpStatus::NOT_FOUND )
+            "error" => HttpCode::getDescription( HttpCode::NOT_FOUND )
         ] );
-        $app->response->send();
 
         return false;
     }

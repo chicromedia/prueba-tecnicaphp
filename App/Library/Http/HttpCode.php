@@ -4,7 +4,7 @@
 namespace App\Library\Http;
 
 
-class HttpStatus
+class HttpCode
 {
     const SWITCHING_PROTOCOLS                                       = 101;
     const PROCESSING                                                = 102;

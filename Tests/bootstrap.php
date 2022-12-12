@@ -5,6 +5,7 @@ use App\Library\Bootstrap\Tests;
 define( "BASE_PATH", dirname( __DIR__ ) . DIRECTORY_SEPARATOR );
 const APP_PATH  = BASE_PATH . 'App/';
 const TEST_PATH = BASE_PATH . 'Tests/';
+const CLI_PATH  = BASE_PATH . 'Cli/';
 
 try
 {
@@ -20,7 +21,7 @@ try
     $bootstrap = new Tests();
     $bootstrap->setup();
     $bootstrap->run();
-} catch ( Exception $ex )
+} catch ( Exception|Throwable $ex )
 {
     print $ex->getMessage();
 }

@@ -6,7 +6,8 @@ use Phalcon\Loader;
 $loader = new Loader();
 
 $loader->registerNamespaces( [
-    "Tests" => TEST_PATH
+    "Tests" => TEST_PATH,
+    "Cli" => CLI_PATH
 ] );
 
 $loader->register();

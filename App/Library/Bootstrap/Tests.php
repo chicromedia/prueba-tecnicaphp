@@ -4,34 +4,53 @@ declare( strict_types=1 );
 namespace App\Library\Bootstrap;
 
 use App\Providers\DatabaseProvider;
+use Cli\Library\Db\Synchronize;
+use Exception;
 use Phalcon\Db\Adapter\AdapterInterface;
+use Phalcon\Di;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
 class Tests extends Bootstrap
 {
     /**
      * Run the tests application
-     * @return Micro
      */
     public function run(): Micro
     {
-        $this->setUpDataBase();
+        $setup = $this->getConfig()->get( "database" );
+        $db    = $this->getPdoAdapter();
+
+        $dbname = $setup->path( 'dbname' ) . "_test";
+        $setup->set( "dbname", $dbname );
+
+        $db->execute( "CREATE DATABASE IF NOT EXISTS {$dbname}" );
+        $db->connect( $setup->toArray() );
+
+        $synchronize = new Synchronize( $this->container );
+        Synchronize::run( $synchronize->getOptions( true ) );
+
         return $this->application;
     }
 
-    private function setUpDataBase()
+    /**
+     * @throws Exception
+     */
+    public function setup(): void
     {
-        $config = $this->getConfig();
-        $db     = $this->getPdoAdapter();
+        $this->container = new FactoryDefault();
+        $providers       = TEST_PATH . 'Config/providers.php';
 
-        $dbname = $config->path( 'database.dbname' ) . "_test";
-        $db->execute( "CREATE DATABASE IF NOT EXISTS {$dbname}" );
+        if ( !file_exists( $providers ) || !is_readable( $providers ) )
+        {
+            throw new Exception( "File providers {$providers} does not exist or is not readable." );
+        }
 
-        $database = $config->get( 'database' );
-        $database->set( 'dbname', $dbname );
-        $db->connect( $database->toArray() );
+        $this->providers = require_once $providers;
+        Di::setDefault( $this->container );
+
+        parent::setup();
     }
-
 
     protected function getPdoAdapter(): AdapterInterface
     {

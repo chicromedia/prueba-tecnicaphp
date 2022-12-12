@@ -5,3 +5,4 @@ etc/data/*
 vendor
 .env
 *.lock
+.phpunit.result.cache

@@ -36,6 +36,3 @@ COPY . /var/www
 
 # Copy composer.lock and composer.json
 COPY composer.lock composer.json /var/www/
-
-# Expose port 9000
-EXPOSE 9000

@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\StringLength\Min as MinStringLengthValidator;
 
+/**
+ * @method static User|null findFirstById( int $id )
+ */
 class User extends Model
 {
     const STATUS_ACTIVE   = "active";
@@ -41,10 +47,33 @@ class User extends Model
         $validator = new Validation();
 
         $validator->add( 'email', new EmailValidator( [
-            'model' => $this,
-            'message' => 'Please enter a correct email address',
+            'message' => 'The e-mail is not valid',
+        ] ) );
+
+        $validator->add( 'password', new MinStringLengthValidator( [
+            'min' => 8,
+            'message' => 'The password is not valid',
         ] ) );
 
         return $this->validate( $validator );
     }
+
+    /**
+     * @param $parameters
+     * @return User[]|ResultsetInterface
+     */
+    public static function find( $parameters = null ): ResultsetInterface
+    {
+        return parent::find( $parameters );
+    }
+
+    /***
+     * @param $parameters
+     * @return User|ModelInterface|null
+     */
+    public static function findFirst( $parameters = null ): ?ModelInterface
+    {
+        return parent::findFirst( $parameters );
+    }
+
 }

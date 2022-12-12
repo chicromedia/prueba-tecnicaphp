@@ -9,6 +9,8 @@ use Phalcon\Migrations\Migrations;
 
 class Synchronize extends Migrations
 {
+    const MIGRATION_LOG_TABLE = "script_migrations";
+
     private ?DiInterface $di;
 
     public function __construct( ?DiInterface $di )
@@ -16,7 +18,7 @@ class Synchronize extends Migrations
         $this->di = $di;
     }
 
-    public function getOptions(): array
+    public function getOptions( bool $migrationsInDb = false ): array
     {
         /** @var Config $config */
         $config               = $this->di->getShared( ConfigProvider::NAME );
@@ -31,7 +33,7 @@ class Synchronize extends Migrations
             "migrationsTsBased" => $config->path( 'application.migrationsTsBased' ),
             "migrationsDir" => $migrationsDir,
             'tableName' => "@",
-            "migrationsInDb" => false,
+            "migrationsInDb" => $migrationsInDb,
             "skip-ref-schema" => true,
             "skip-foreign-checks" => true,
             "force" => true,

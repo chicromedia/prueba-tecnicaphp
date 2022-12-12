@@ -5,7 +5,7 @@ namespace App\Library\Bootstrap;
 use App\Providers\ConfigProvider;
 use Phalcon\Cli\Console;
 use Phalcon\Config;
-use Phalcon\Di;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as PhCli;
 use Phalcon\Di\ServiceProviderInterface;
@@ -44,12 +44,10 @@ abstract class Bootstrap
     {
         $this->setupApplication();
         $this->registerServices();
-        Di::setDefault( $this->container );
     }
 
     /**
      * Set up the application object in the container
-     *
      * @return Bootstrap
      */
     protected function setupApplication(): Bootstrap
@@ -59,9 +57,13 @@ abstract class Bootstrap
         return $this;
     }
 
+    public function getContainer(): DiInterface
+    {
+        return $this->container;
+    }
+
     /**
      * Get service config the application
-     *
      * @return Config
      */
     protected function getConfig(): Config
@@ -71,10 +73,9 @@ abstract class Bootstrap
 
     /**
      * Registers available services
-     *
      * @return void
      */
-    private function registerServices()
+    protected function registerServices()
     {
         /** @var ServiceProviderInterface $provider */
         foreach ( $this->providers as $provider )
